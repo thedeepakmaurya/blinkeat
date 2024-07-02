@@ -6,6 +6,8 @@ import Error from './components/Error';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Login from './components/Login';
 import VendorRegistration from './components/VendorRegistration';
+import Offer from './components/Offer';
+import SignUp from './components/SignUp';
 
 
 const appRouter = createBrowserRouter(
@@ -23,6 +25,14 @@ const appRouter = createBrowserRouter(
                     path: 'vendor',
                     element: <VendorRegistration/>
                 },
+                {
+                    path: 'offer',
+                    element: <Offer/>,
+                },
+                {
+                    path: 'signup',
+                    element: <SignUp/>,
+                }
             ],
         },
     ]

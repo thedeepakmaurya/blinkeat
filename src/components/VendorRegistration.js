@@ -29,15 +29,17 @@ const VendorRegistration = () => {
     }
 
     return (
-        <div className='flex justify-center h-screen'>
-            <img className='h-[90%]' alt='restaurnat' src={restaurant} />
-            <div className=' mt-14 w-[50%] h-[70%] rounded-xl  p-5'>
+        <div className='flex w-full p-10 '>
+            <div className='w-1/2'>
+                <img className='w-[84%] ' alt='restaurnat' src={restaurant} />
+            </div>
+            <div className='mt-14 w-1/2 rounded-xl'>
                 <h1 className='font-extralight text-2xl mb-5'>RESTAURANT!</h1>
                 <form onSubmit={handleSubmit}>
                     <div className='flex gap-10'>
                         <div className='flex flex-col w-1/2'>
                             <label>Name<sup className='text-red-600'>*</sup></label>
-                            <input className='outline-none border-b border-b-primaryBlue' type="text" name="name" placeholder='Enter Hotel Name' onChange={handleChange} value={restaurantData.name} required />
+                            <input className='outline-none border-b border-b-primaryBlue' type="text" name="name" placeholder='Enter Restaurant Name' onChange={handleChange} value={restaurantData.name} required />
                         </div>
                         <div className='flex flex-col w-1/2'>
                             <label>Address<sup className='text-red-600'>*</sup></label>
@@ -61,14 +63,14 @@ const VendorRegistration = () => {
                         </div>
                         <div className='flex flex-col w-1/2'>
                             <label>Contact<sup className='text-red-600'>*</sup></label>
-                            <input className='outline-none border-b  border-b-primaryBlue' type="text" name="contact" placeholder='Enter contact' onChange={handleChange} value={restaurantData.contact} required />
+                            <input className='outline-none border-b  border-b-primaryBlue' type="text" name="contact" placeholder='Enter Contact' onChange={handleChange} value={restaurantData.contact} required />
                         </div>
                     </div>
 
                     <div className='flex  gap-10 mt-8'>
                         <div className='flex flex-col w-1/2'>
                             <label>Email<sup className='text-red-600'>*</sup></label>
-                            <input className='outline-none border-b border-b-primaryBlue' type="email" name="email" placeholder='Enter email' onChange={handleChange} value={restaurantData.email} required />
+                            <input className='outline-none border-b border-b-primaryBlue' type="email" name="email" placeholder='Enter Email' onChange={handleChange} value={restaurantData.email} required />
                         </div>
                         <div className='flex flex-col w-1/2'>
                             <label>Contact<sup className='text-red-600'>*</sup></label>
@@ -76,7 +78,7 @@ const VendorRegistration = () => {
                             <input className='invisible' type="text" name="role" placeholder='Enter role' defaultValue={restaurantData.role} />
                         </div>
                     </div>
-                    <div className='flex gap-10 mt-8'>
+                    <div className='flex gap-10 mt-2'>
                         <div className='flex flex-col w-1/2'>
                             <label>Upload Logo<sup className='text-red-600'>*</sup></label>
                             <input className='file:bg-white file:border-none file:p-0 border-b border-b-primaryBlue file:text-secondaryBlue file:pr-5 hover:file:cursor-pointer' type="file" accept="image/*" name="logo" onChange={handleChange} value={restaurantData.logo} required />

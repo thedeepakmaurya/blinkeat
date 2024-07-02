@@ -8,7 +8,7 @@ const Navbar = () => {
             <img className='h-14' alt='logo' src={logo} />
             <div className='flex gap-5'>
                 <Link to='/vendor'> <span className='text-xl'><i className='bx bxs-user-plus bx-sm align-middle' ></i> Reataurant Registration</span></Link>
-                <Link to='#'> <span className='text-xl'><i className='bx bxs-offer bx-sm align-middle' ></i> Offers <sup className='text-Orange'>New!</sup></span></Link>
+                <Link to='/offer'> <span className='text-xl'><i className='bx bxs-offer bx-sm align-middle' ></i> Offers <sup className='text-Orange'>New!</sup></span></Link>
                 <Link to='/login'> <span className='text-xl'><i className='bx bxs-log-in bx-sm align-middle' ></i> Sign In</span></Link>
                 <Link to='/cart'><span className='text-xl'><i className='bx bxs-cart-alt bx-sm align-middle'></i> Cart</span></Link>
             </div>
