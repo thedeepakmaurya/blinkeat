@@ -9,8 +9,9 @@ const VendorRegistration = () => {
             address: '',
             city: '',
             state: '',
-            phone: '',
+            contact: '',
             email: '',
+            country: '',
             logo: '',
             role: 'restaurant',
             password: '',
@@ -53,20 +54,26 @@ const VendorRegistration = () => {
                             <input className='outline-none border-b  border-b-primaryBlue' type="text" name="state" placeholder='Enter State' onChange={handleChange} value={restaurantData.state} required />
                         </div>
                     </div>
-                    <div className='flex flex-col w-full mt-8'>
-                        <label>Country<sup className='text-red-600'>*</sup></label>
-                        <input className='outline-none border-b  border-b-primaryBlue' type="text" name="country" placeholder='Enter Country' onChange={handleChange} value={restaurantData.country} required />
+                    <div className='flex gap-10 mt-8'>
+                        <div className='flex flex-col w-1/2'>
+                            <label>Country<sup className='text-red-600'>*</sup></label>
+                            <input className='outline-none border-b  border-b-primaryBlue' type="text" name="country" placeholder='Enter Country' onChange={handleChange} value={restaurantData.country} required />
+                        </div>
+                        <div className='flex flex-col w-1/2'>
+                            <label>Contact<sup className='text-red-600'>*</sup></label>
+                            <input className='outline-none border-b  border-b-primaryBlue' type="text" name="contact" placeholder='Enter contact' onChange={handleChange} value={restaurantData.contact} required />
+                        </div>
                     </div>
 
-                    <div className='flex gap-10 mt-8'>
+                    <div className='flex  gap-10 mt-8'>
                         <div className='flex flex-col w-1/2'>
                             <label>Email<sup className='text-red-600'>*</sup></label>
                             <input className='outline-none border-b border-b-primaryBlue' type="email" name="email" placeholder='Enter email' onChange={handleChange} value={restaurantData.email} required />
                         </div>
                         <div className='flex flex-col w-1/2'>
                             <label>Contact<sup className='text-red-600'>*</sup></label>
-                            <input className='outline-none border-b  border-b-primaryBlue' type="text" name="contact" placeholder='Enter contact' onChange={handleChange} value={restaurantData.contact} required />
-                            <input className='invisible' type="text" name="role" placeholder='Enter role' onChange={handleChange} value={restaurantData.role} />
+                            <input className='outline-none border-b  border-b-primaryBlue' type="text" name="password" placeholder='Enter Password' onChange={handleChange} value={restaurantData.password} required />
+                            <input className='invisible' type="text" name="role" placeholder='Enter role' defaultValue={restaurantData.role} />
                         </div>
                     </div>
                     <div className='flex gap-10 mt-8'>
