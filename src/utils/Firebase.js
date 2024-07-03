@@ -1,9 +1,12 @@
 import { initializeApp } from "firebase/app";
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
-import { doc, getFirestore, setDoc } from "firebase/firestore";
-import { createContext } from "react";
+import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
+import { createContext, useContext, useEffect, useState } from "react";
 
 const FirebaseContext = createContext();
+
+//custom hook
+export const useFirebase = () => useContext(FirebaseContext)
 
 const firebaseConfig = {
     apiKey: "AIzaSyA47PCNdn-EzLonVhF6-eNa2yKZGG-ocPI",
@@ -19,23 +22,67 @@ const firebaseApp = initializeApp(firebaseConfig);
 const firebaseAuth = getAuth(firebaseApp)
 const firestore = getFirestore(firebaseApp);
 
+//Helper function to get role
+
+const getUserRole = async (id) => {
+    const userDoc = await getDoc(doc(firestore, 'users', id));
+    if (userDoc.exists()) return 'user';
+
+    const restaurantDoc = await getDoc(doc(firestore, 'restaurants', id));
+    if (restaurantDoc.exists()) return 'restaurant';
+
+    return null;
+}
 
 export const FirebaseProvider = ({ children }) => {
 
-    const addRestaurant = async (email, password, name, role) => {
+    const [user, setUser] = useState();
+    const [role, setRole] = useState();
+
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(firebaseAuth, async (authUser) => {
+            if (authUser) {
+                setUser(authUser);
+                const userRole = await getUserRole(authUser.uid);
+                setRole(userRole);
+            } else {
+                setUser(null);
+                setRole(null);
+            }
+        });
+        return unsubscribe;
+
+    }, []);
+
+    const userSignUp = async (email, password, firstname, lastname, contact, address, city, country, pincode, role) => {
         const userCredential = await createUserWithEmailAndPassword(firebaseAuth, email, password);
         const user = userCredential.user;
 
-        await setDoc(doc(firestore, 'restaurants', user.uid), {
-              email,
-              name,
-              role,
-              uid: user.uid,
+        await setDoc(doc(firestore, 'users', user.uid), {
+            email,
+            firstname,
+            lastname,
+            contact,
+            address,
+            city,
+            country,
+            pincode,
+            role,
         })
     }
 
+
+    const signIn = async (email, password) => {
+        await signInWithEmailAndPassword(firebaseAuth, email, password)
+    }
+
+    const signOut = () => {
+        firebaseAuth.signOut().then(() => setUser(null));
+    }
+
     return (
-        <FirebaseContext.Provider value={addRestaurant}>
+        <FirebaseContext.Provider value={{ userSignUp, signIn, signOut, user, role }}>
             {children}
         </FirebaseContext.Provider>
     )

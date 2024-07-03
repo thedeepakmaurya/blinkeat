@@ -1,8 +1,13 @@
 import React, { useState } from 'react'
 import food from '../assets/img/food.svg'
+import { useFirebase } from '../utils/Firebase';
+import { useNavigate } from 'react-router-dom';
+import { Toaster, toast } from 'react-hot-toast';
 
 const SignUp = () => {
 
+  const firebase = useFirebase()
+  const navigate = useNavigate()
 
   const [userData, setUserData] = useState({
     firstname: '',
@@ -23,7 +28,11 @@ const SignUp = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(userData);
+    firebase.userSignUp(userData.email, userData.password, userData.firstname, userData.lastname, userData.contact, userData.address, userData.city, userData.country, userData.pincode, userData.role)
+      .then(() => {
+        toast.success('User registered successfully!')
+        navigate('/login')
+      })
   }
 
 
@@ -38,48 +47,48 @@ const SignUp = () => {
           <div className='flex gap-10'>
             <div className='flex flex-col w-1/2'>
               <label>First Name<sup className='text-red-600'>*</sup></label>
-              <input className='outline-none border-b  border-b-Orange' type="text" name='firstname' placeholder="Enter First Name" onChange={handleInputChange}  value={userData.firstname} required />
+              <input className='outline-none border-b  border-b-Orange' type="text" name='firstname' placeholder="Enter First Name" onChange={handleInputChange} value={userData.firstname} required />
             </div>
             <div className='flex flex-col w-1/2'>
               <label>Last Name<sup className='text-red-600'>*</sup></label>
-              <input className='outline-none border-b  border-b-Orange' type="text" name='lastname' placeholder="Enter Last Name" onChange={handleInputChange}  value={userData.lastname} required />
+              <input className='outline-none border-b  border-b-Orange' type="text" name='lastname' placeholder="Enter Last Name" onChange={handleInputChange} value={userData.lastname} required />
             </div>
           </div>
           <div className='flex gap-10 mt-8'>
             <div className='flex flex-col w-1/2'>
               <label>Address<sup className='text-red-600'>*</sup></label>
-              <input className='outline-none border-b  border-b-Orange' type="text" name='address' placeholder="Enter Address" onChange={handleInputChange}  value={userData.address} required />
+              <input className='outline-none border-b  border-b-Orange' type="text" name='address' placeholder="Enter Address" onChange={handleInputChange} value={userData.address} required />
             </div>
             <div className='flex flex-col w-1/2'>
               <label>City<sup className='text-red-600'>*</sup></label>
-              <input className='outline-none border-b  border-b-Orange' type="text" name='city' placeholder="Enter City" onChange={handleInputChange}  value={userData.city} required />
+              <input className='outline-none border-b  border-b-Orange' type="text" name='city' placeholder="Enter City" onChange={handleInputChange} value={userData.city} required />
             </div>
           </div>
           <div className='flex gap-10 mt-8'>
             <div className='flex flex-col w-1/2'>
               <label>Pincode<sup className='text-red-600'>*</sup></label>
-              <input className='outline-none border-b  border-b-Orange' type="text" name='pincode' placeholder="Enter Pincode" onChange={handleInputChange}  value={userData.pincode} required />
+              <input className='outline-none border-b  border-b-Orange' type="text" name='pincode' placeholder="Enter Pincode" onChange={handleInputChange} value={userData.pincode} required />
             </div>
             <div className='flex flex-col w-1/2'>
               <label>Country<sup className='text-red-600'>*</sup></label>
-              <input className='outline-none border-b  border-b-Orange' type="text" name='country' placeholder="Enter Country" onChange={handleInputChange}  value={userData.country} required />
+              <input className='outline-none border-b  border-b-Orange' type="text" name='country' placeholder="Enter Country" onChange={handleInputChange} value={userData.country} required />
             </div>
           </div>
           <div className='flex gap-10 mt-8'>
             <div className='flex flex-col w-1/2'>
               <label>Contact<sup className='text-red-600'>*</sup></label>
-              <input className='outline-none border-b  border-b-Orange' type="text" name='contact' placeholder="Enter Contact" onChange={handleInputChange}  value={userData.contact} required />
+              <input className='outline-none border-b  border-b-Orange' type="text" name='contact' placeholder="Enter Contact" onChange={handleInputChange} value={userData.contact} required />
             </div>
             <div className='flex flex-col w-1/2'>
               <label>Email<sup className='text-red-600'>*</sup></label>
-              <input className='outline-none border-b  border-b-Orange' type="email" name='email' placeholder="Enter Email" onChange={handleInputChange}  value={userData.email} required />
+              <input className='outline-none border-b  border-b-Orange' type="email" name='email' placeholder="Enter Email" onChange={handleInputChange} value={userData.email} required />
             </div>
           </div>
           <div className='flex gap-10 mt-8'>
             <div className='flex flex-col w-1/2'>
               <label>Password<sup className='text-red-600'>*</sup></label>
-              <input className='outline-none border-b  border-b-Orange' type="text" name='password' placeholder="Enter Password" onChange={handleInputChange}  value={userData.password} required />
-              <input className='invisible' type="text" name='role' placeholder="Enter Role"  defaultValue={userData.role} readOnly/>
+              <input className='outline-none border-b  border-b-Orange' type="text" name='password' placeholder="Enter Password" onChange={handleInputChange} value={userData.password} required />
+              <input className='invisible' type="text" name='role' placeholder="Enter Role" defaultValue={userData.role} readOnly />
             </div>
             <div className='flex flex-col w-1/2'>
               <button className='mt-3 w-full bg-primaryBlue h-10 text-white font-bold rounded-sm' type='submit'>Create Account</button>
@@ -87,6 +96,7 @@ const SignUp = () => {
           </div>
         </form>
       </div>
+      <Toaster />
     </div>
   )
 }

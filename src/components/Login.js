@@ -1,7 +1,12 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useFirebase } from '../utils/Firebase';
+import { Toaster, toast } from 'react-hot-toast';
 
 const Login = () => {
+
+    const firbase = useFirebase()
+    const navigate = useNavigate()
 
     const [userData, setUserData] = useState(
         {
@@ -11,12 +16,15 @@ const Login = () => {
     );
 
     const handleChange = (e) => {
-          setUserData({...userData, [e.target.name]: e.target.value })
+        setUserData({ ...userData, [e.target.name]: e.target.value })
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(userData)
+        firbase.signIn(userData.email, userData.password).then(() => {
+          toast.success('Logged in successfully!')
+          navigate('/')
+        })
     }
 
 
@@ -33,6 +41,7 @@ const Login = () => {
                 </form>
                 <p>Don't have an account? <Link to="/signup"><span className='text-Orange'>Sign up</span></Link></p>
             </div>
+            <Toaster/>
         </div>
     )
 }
