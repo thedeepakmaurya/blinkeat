@@ -1,7 +1,12 @@
 import React, { useState } from 'react'
 import restaurant from '../assets/img/restaurnat.svg'
+import { useFirebase } from '../utils/Firebase'
+import { useNavigate } from 'react-router-dom'
 
-const VendorRegistration = () => {
+const RestaurantRegistration = () => {
+
+    const firebase = useFirebase()
+    const navigate = useNavigate()
 
     const [restaurantData, setRestaurantData] = useState(
         {
@@ -12,11 +17,12 @@ const VendorRegistration = () => {
             contact: '',
             email: '',
             country: '',
-            logo: '',
             role: 'restaurant',
             password: '',
         }
     )
+
+    const [logo, setLogo] = useState(null);
 
     const handleChange = (e) => {
         setRestaurantData({ ...restaurantData, [e.target.name]: e.target.value })
@@ -24,8 +30,8 @@ const VendorRegistration = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        // Save the data to the database
-        console.log(restaurantData)
+        firebase.addRestaurant(restaurantData.email, restaurantData.password, restaurantData.name, restaurantData.address, restaurantData.city, restaurantData.state, restaurantData.country, restaurantData.contact, restaurantData.role, logo)
+        navigate('/login')
     }
 
     return (
@@ -73,15 +79,15 @@ const VendorRegistration = () => {
                             <input className='outline-none border-b border-b-primaryBlue' type="email" name="email" placeholder='Enter Email' onChange={handleChange} value={restaurantData.email} required />
                         </div>
                         <div className='flex flex-col w-1/2'>
-                            <label>Contact<sup className='text-red-600'>*</sup></label>
+                            <label>Password<sup className='text-red-600'>*</sup></label>
                             <input className='outline-none border-b  border-b-primaryBlue' type="text" name="password" placeholder='Enter Password' onChange={handleChange} value={restaurantData.password} required />
-                            <input className='invisible' type="text" name="role" placeholder='Enter role' defaultValue={restaurantData.role} />
+                            <input className='invisible' type="text" name="role"  defaultValue={restaurantData.role} />
                         </div>
                     </div>
                     <div className='flex gap-10 mt-2'>
                         <div className='flex flex-col w-1/2'>
                             <label>Upload Logo<sup className='text-red-600'>*</sup></label>
-                            <input className='file:bg-white file:border-none file:p-0 border-b border-b-primaryBlue file:text-secondaryBlue file:pr-5 hover:file:cursor-pointer' type="file" accept="image/*" name="logo" onChange={handleChange} value={restaurantData.logo} required />
+                            <input className='file:bg-white file:border-none file:p-0 border-b border-b-primaryBlue file:text-secondaryBlue file:pr-5 hover:file:cursor-pointer' type="file" accept="image/*" name="logo" onChange={(e) => setLogo(e.target.files[0])} required />
                         </div>
                         <div className='w-1/2'>
                             <button className='mt-3 w-full bg-Orange h-10 text-white font-bold rounded-sm' type='submit'>Register</button>
@@ -93,4 +99,4 @@ const VendorRegistration = () => {
     )
 }
 
-export default VendorRegistration;
+export default RestaurantRegistration;

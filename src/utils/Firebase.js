@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
+import { getStorage, ref, uploadBytes } from "firebase/storage";
 import { createContext, useContext, useEffect, useState } from "react";
 
 const FirebaseContext = createContext();
@@ -19,8 +20,9 @@ const firebaseConfig = {
 
 
 const firebaseApp = initializeApp(firebaseConfig);
-const firebaseAuth = getAuth(firebaseApp)
+const firebaseAuth = getAuth(firebaseApp);
 const firestore = getFirestore(firebaseApp);
+const storage = getStorage(firebaseApp);
 
 //Helper function to get role
 
@@ -72,6 +74,26 @@ export const FirebaseProvider = ({ children }) => {
         })
     }
 
+    const addRestaurant = async (email, password, name, address, city, state, country, contact, role, logo) => {
+        const userCredential = await createUserWithEmailAndPassword(firebaseAuth, email, password);
+        const user = userCredential.user;
+
+        const imageRef = ref(storage, `uploads/images/${Date.now()}-${name}`);
+        const uploadResult = await uploadBytes(imageRef, logo)
+
+        await setDoc(doc(firestore, 'restaurants', user.uid), {
+            email,
+            name,
+            address,
+            city,
+            state,
+            country,
+            contact,
+            role,
+            logo: uploadResult.ref.fullPath,
+        })
+    }
+
 
     const signIn = async (email, password) => {
         await signInWithEmailAndPassword(firebaseAuth, email, password)
@@ -82,7 +104,7 @@ export const FirebaseProvider = ({ children }) => {
     }
 
     return (
-        <FirebaseContext.Provider value={{ userSignUp, signIn, signOut, user, role }}>
+        <FirebaseContext.Provider value={{ userSignUp, signIn, signOut, addRestaurant, user, role }}>
             {children}
         </FirebaseContext.Provider>
     )
