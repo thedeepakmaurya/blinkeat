@@ -8,6 +8,7 @@ import Login from './components/Login';
 import Offer from './components/Offer';
 import SignUp from './components/SignUp';
 import RestaurantRegistration from './components/RestaurantRegistration';
+import RestaurantInfo from './components/RestaurantInfo';
 
 
 const appRouter = createBrowserRouter(
@@ -32,6 +33,10 @@ const appRouter = createBrowserRouter(
                 {
                     path: 'signup',
                     element: <SignUp/>,
+                },
+                {
+                    path: 'restaurant-info',
+                    element: <RestaurantInfo/>,
                 }
             ],
         },

@@ -31,7 +31,10 @@ const SignUp = () => {
     firebase.userSignUp(userData.email, userData.password, userData.firstname, userData.lastname, userData.contact, userData.address, userData.city, userData.country, userData.pincode, userData.role)
       .then(() => {
         toast.success('User registered successfully!')
+      }).then(() => {
         navigate('/login')
+      }).catch((error) => {
+        toast.error('Error registering user: ', error.message)
       })
   }
 

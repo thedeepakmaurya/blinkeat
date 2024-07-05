@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import restaurant from '../assets/img/restaurnat.svg'
 import { useFirebase } from '../utils/Firebase'
 import { useNavigate } from 'react-router-dom'
+import { Toaster, toast } from 'react-hot-toast'
+
 
 const RestaurantRegistration = () => {
 
@@ -30,8 +32,9 @@ const RestaurantRegistration = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        firebase.addRestaurant(restaurantData.email, restaurantData.password, restaurantData.name, restaurantData.address, restaurantData.city, restaurantData.state, restaurantData.country, restaurantData.contact, restaurantData.role, logo)
-        navigate('/login')
+        firebase.addRestaurant(restaurantData.email, restaurantData.password, restaurantData.name, restaurantData.address, restaurantData.city, restaurantData.state, restaurantData.country, restaurantData.contact, restaurantData.role, logo).then(() => {
+            toast.success('Restaurant registered successfully')
+        }).then(() => navigate('/login')).catch((error) => toast.error('Error registering' + error.message))
     }
 
     return (
@@ -81,7 +84,7 @@ const RestaurantRegistration = () => {
                         <div className='flex flex-col w-1/2'>
                             <label>Password<sup className='text-red-600'>*</sup></label>
                             <input className='outline-none border-b  border-b-primaryBlue' type="text" name="password" placeholder='Enter Password' onChange={handleChange} value={restaurantData.password} required />
-                            <input className='invisible' type="text" name="role"  defaultValue={restaurantData.role} />
+                            <input className='invisible' type="text" name="role" defaultValue={restaurantData.role} />
                         </div>
                     </div>
                     <div className='flex gap-10 mt-2'>
@@ -95,6 +98,7 @@ const RestaurantRegistration = () => {
                     </div>
                 </form>
             </div>
+            <Toaster />
         </div>
     )
 }

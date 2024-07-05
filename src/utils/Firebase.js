@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
-import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
-import { getStorage, ref, uploadBytes } from "firebase/storage";
+import { addDoc, collection, doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { createContext, useContext, useEffect, useState } from "react";
 
 const FirebaseContext = createContext();
@@ -48,6 +48,7 @@ export const FirebaseProvider = ({ children }) => {
                 setUser(authUser);
                 const userRole = await getUserRole(authUser.uid);
                 setRole(userRole);
+
             } else {
                 setUser(null);
                 setRole(null);
@@ -56,6 +57,7 @@ export const FirebaseProvider = ({ children }) => {
         return unsubscribe;
 
     }, []);
+
 
     const userSignUp = async (email, password, firstname, lastname, contact, address, city, country, pincode, role) => {
         const userCredential = await createUserWithEmailAndPassword(firebaseAuth, email, password);
@@ -94,6 +96,21 @@ export const FirebaseProvider = ({ children }) => {
         })
     }
 
+    const addFoodItems = async (name, description, ingredient, quantity, image, price) => {
+        const imageRef = ref(storage, `uploads/items/${Date.now()}-${name}`);
+        const uploadResult = await uploadBytes(imageRef, image)
+
+        await addDoc(collection(firestore, 'items'), {
+            name,
+            description,
+            ingredient,
+            quantity,
+            image: uploadResult.ref.fullPath,
+            price,
+            restaurantId: user.uid,
+        })
+    }
+
 
     const signIn = async (email, password) => {
         await signInWithEmailAndPassword(firebaseAuth, email, password)
@@ -103,8 +120,12 @@ export const FirebaseProvider = ({ children }) => {
         firebaseAuth.signOut().then(() => setUser(null));
     }
 
+    const getImageUrl = (path) => {
+        return getDownloadURL(ref(storage, path))
+    }
+
     return (
-        <FirebaseContext.Provider value={{ userSignUp, signIn, signOut, addRestaurant, user, role }}>
+        <FirebaseContext.Provider value={{ userSignUp, signIn, signOut, addRestaurant, addFoodItems, getImageUrl, firestore, user, role }}>
             {children}
         </FirebaseContext.Provider>
     )
