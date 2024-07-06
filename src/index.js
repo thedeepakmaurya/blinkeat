@@ -9,6 +9,7 @@ import Offer from './components/Offer';
 import SignUp from './components/SignUp';
 import RestaurantRegistration from './components/RestaurantRegistration';
 import RestaurantInfo from './components/RestaurantInfo';
+import Home from './components/Home';
 
 
 const appRouter = createBrowserRouter(
@@ -18,6 +19,10 @@ const appRouter = createBrowserRouter(
             element: <App />,
             errorElement: <Error/>,
             children: [
+                {
+                    path: '/',
+                    element: <Home/>
+                },
                 {
                     path: 'login',
                     element: <Login/>

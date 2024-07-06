@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
-import { addDoc, collection, doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, getDocs, getFirestore, setDoc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { createContext, useContext, useEffect, useState } from "react";
 
@@ -10,12 +10,12 @@ const FirebaseContext = createContext();
 export const useFirebase = () => useContext(FirebaseContext)
 
 const firebaseConfig = {
-    apiKey: "AIzaSyA47PCNdn-EzLonVhF6-eNa2yKZGG-ocPI",
-    authDomain: "blinkeat-5c29a.firebaseapp.com",
-    projectId: "blinkeat-5c29a",
-    storageBucket: "blinkeat-5c29a.appspot.com",
-    messagingSenderId: "547428511439",
-    appId: "1:547428511439:web:ad71dfec64a95a8a2d51ba"
+    apiKey: "AIzaSyBC_344GhlIRwaxM67QODsiLgTuuE6AfXQ",
+    authDomain: "blinkeat-3f378.firebaseapp.com",
+    projectId: "blinkeat-3f378",
+    storageBucket: "blinkeat-3f378.appspot.com",
+    messagingSenderId: "279416277823",
+    appId: "1:279416277823:web:0fe36b13646d3878d4a18a"
 };
 
 
@@ -124,8 +124,17 @@ export const FirebaseProvider = ({ children }) => {
         return getDownloadURL(ref(storage, path))
     }
 
+    const listItems = () => {
+        return getDocs(collection(firestore, 'items'))
+    }
+
+    const restaurantList = () => {
+        return getDocs(collection(firestore,'restaurants'))
+    }
+
+
     return (
-        <FirebaseContext.Provider value={{ userSignUp, signIn, signOut, addRestaurant, addFoodItems, getImageUrl, firestore, user, role }}>
+        <FirebaseContext.Provider value={{ userSignUp, signIn, signOut, addRestaurant, addFoodItems, getImageUrl, listItems, restaurantList, firestore, user, role }}>
             {children}
         </FirebaseContext.Provider>
     )

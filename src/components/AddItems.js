@@ -29,6 +29,7 @@ const AddItems = () => {
             ingredient: '',
             quantity: '',
             price: '',
+            image: null,
         })
         toast.success('Food Item added successfully!')
     }
@@ -36,7 +37,7 @@ const AddItems = () => {
 
     return (
         <div className='w-[50%] p-10 pl-5 h-full '>
-            <h1 className='text-primaryBlue text-xl font-light '><i className='bx bxs-bowl-rice align-middle' ></i> ADD FOOD ITEM</h1>
+            <h1 className='text-primaryBlue text-xl font-light '><i className='bx bxs-bowl-rice' ></i> ADD FOOD ITEM</h1>
             <form className='flex flex-col gap-10 w-full mt-5' onSubmit={handleSubmit}>
                 <div className='w-full flex gap-5'>
                     <input className='border-b border-b-primaryBlue outline-none w-1/3' type="text" name="name" placeholder='Item Name' onChange={handleChange} value={items.name} required />
