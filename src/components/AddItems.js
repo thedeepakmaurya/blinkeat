@@ -52,8 +52,8 @@ const AddItems = () => {
                     <input className='border-b border-b-primaryBlue outline-none file:cursor-pointer w-1/3 file:bg-white file:border-none file:text-Orange file:pl-0' type="file" name="image" accept="image/*" onChange={(e) => setImage(e.target.files[0])} required />
                     <button className='bg-secondaryBlue p-1 w-1/3 rounded-sm text-primaryBlue' type='submit'><i className='bx bx-plus align-middle' ></i> Add Item</button>
                 </div>
+                <Toaster />
             </form>
-            <Toaster />
         </div>
     )
 }

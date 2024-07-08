@@ -21,11 +21,13 @@ const RestaurantInfo = () => {
 
 
     useEffect(() => {
-        const getRestaurantData = async () => {
+        const getRestaurantData = () => {
             try {
-                const restaurants = await getDocs(collection(firebase.firestore, 'restaurants'));
-                const firstRestaurant = restaurants.docs;
-                setRestaurant(firstRestaurant);
+                // const restaurants = await getDocs(collection(firebase.firestore, 'restaurants'));
+                // const firstRestaurant = restaurants.docs;
+                // setRestaurant(firstRestaurant);
+
+                firebase.restaurantList().then((restaurants) => setRestaurant(restaurants.docs));
 
                 let res = [];
                 res = restaurant.filter((restaurant) => restaurant.id === firebase.user.uid);
@@ -37,19 +39,16 @@ const RestaurantInfo = () => {
         };
         getRestaurantData();
 
-    }, [firebase, currRestaurant, restaurant])
+    }, [restaurant])
 
 
-    if (!firebase.user && !firebase.role === 'restaurant') {
-        return <Unauthorized />
-    }
 
-    if (loading){
-        return <Loading/>
+    if (loading) {
+        return <Loading />
     }
 
 
-    return (
+    return firebase.user && firebase.role === 'restaurant' ? (
         <>
             <div className='flex items-center justify-center w-full h-80  gap-10 mt-5 '>
                 <div className='w-50% p-10 pr-5 h-full border-r border-r-primaryBlue border-l border-l-primaryBlue rounded-r-3xl rounded-l-3xl'>
@@ -68,7 +67,7 @@ const RestaurantInfo = () => {
 
         </>
 
-    )
+    ) : <Unauthorized />
 }
 
 export default RestaurantInfo

@@ -32,7 +32,7 @@ const Items = () => {
 
     return (
         <div className='w-full p-10'>
-            <h1 className='text-primaryBlue text-xl font-light '><i class='bx bx-food-menu'></i> LISTED ITEMS</h1>
+            <h1 className='text-primaryBlue text-xl font-light '><i className='bx bx-food-menu'></i> LISTED ITEMS</h1>
             <div className='flex flex-wrap justify-center gap-14 mt-5'>
                 {
                     currentItem.map(item => (

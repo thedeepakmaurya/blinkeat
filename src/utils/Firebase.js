@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
-import { addDoc, collection, doc, getDoc, getDocs, getFirestore, setDoc } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, getDocs, getFirestore, query, setDoc, where } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { createContext, useContext, useEffect, useState } from "react";
 
@@ -44,15 +44,18 @@ export const FirebaseProvider = ({ children }) => {
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(firebaseAuth, async (authUser) => {
-            if (authUser) {
-                setUser(authUser);
-                const userRole = await getUserRole(authUser.uid);
-                setRole(userRole);
+            if (window.location.pathname !== '/signup' && window.location.pathname !== '/restaurant') {
+                if (authUser) {
+                    setUser(authUser);
+                    const userRole = await getUserRole(authUser.uid);
+                    setRole(userRole);
 
-            } else {
-                setUser(null);
-                setRole(null);
+                } else {
+                    setUser(null);
+                    setRole(null);
+                }
             }
+
         });
         return unsubscribe;
 
@@ -129,12 +132,21 @@ export const FirebaseProvider = ({ children }) => {
     }
 
     const restaurantList = () => {
-        return getDocs(collection(firestore,'restaurants'))
+        return getDocs(collection(firestore, 'restaurants'))
     }
 
+    const placeOrder = async (itemId, qty) => {
+        const collectionRef = collection(firestore, 'items', itemId, 'orders');
+        const result = await addDoc(collectionRef, {
+            userId: user.uid,
+            userEmail: user.email,
+            qty,
+        })
+        return result;
+    }
 
     return (
-        <FirebaseContext.Provider value={{ userSignUp, signIn, signOut, addRestaurant, addFoodItems, getImageUrl, listItems, restaurantList, firestore, user, role }}>
+        <FirebaseContext.Provider value={{ userSignUp, signIn, signOut, addRestaurant, addFoodItems, getImageUrl, listItems, restaurantList, placeOrder, firestore, user, role }}>
             {children}
         </FirebaseContext.Provider>
     )

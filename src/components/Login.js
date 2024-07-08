@@ -36,8 +36,7 @@ const Login = () => {
                 break;
             default:
         }
-    }
-    )
+    }, [firebase.role, navigate])
 
 
     return (

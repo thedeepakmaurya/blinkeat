@@ -25,7 +25,6 @@ const Home = () => {
             try {
                 firebase.listItems().then((item) => setItems(item.docs));
                 firebase.restaurantList().then((restaurant) => setRestaurants(restaurant.docs));
-                console.log(restaurants)
             }
             catch (error) {
                 console.log(error)

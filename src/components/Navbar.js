@@ -2,6 +2,7 @@ import React from 'react'
 import logo from '../assets/img/logo.png'
 import { Link, useNavigate } from 'react-router-dom'
 import { useFirebase } from '../utils/Firebase'
+import { Toaster, toast } from 'react-hot-toast'
 
 const Navbar = () => {
 
@@ -21,13 +22,14 @@ const Navbar = () => {
                 }
                 <Link to='/offer'> <span className='text-xl'><i className='bx bxs-offer bx-sm align-middle' ></i> Offers <sup className='text-Orange'>New!</sup></span></Link>
                 {
-                    firebase.user ? <span className='text-xl cursor-pointer' onClick={() => { firebase.signOut(); navigate('/'); }}><i className='bx bxs-log-out bx-sm align-middle' ></i> Sign Out</span> : <Link to='/login'> <span className='text-xl'><i className='bx bxs-log-in bx-sm align-middle' ></i> Sign In</span></Link>
+                    firebase.user ? <span className='text-xl cursor-pointer' onClick={() => { firebase.signOut(); toast.success('Signout successfull'); navigate('/'); }}><i className='bx bxs-log-out bx-sm align-middle' ></i> Sign Out</span> : <Link to='/login'> <span className='text-xl'><i className='bx bxs-log-in bx-sm align-middle' ></i> Sign In</span></Link>
                 }
 
                 {
-                    firebase.role === 'restaurant' ? <Link to='/orders'><span className='text-xl'><i className='bx bxs-cart-alt bxs-notepad align-middle'></i> Orders</span></Link> : <Link to='/cart'><span className='text-xl'><i className='bx bxs-cart-alt bx-sm align-middle'></i> Cart</span></Link>
+                    firebase.role === 'restaurant' ? <Link to='/orders'><span className='text-xl'><i className='bx bxs-cart-alt bxs-notepad align-middle'></i> Orders</span></Link> : <Link to='/cart'><span className='text-xl'><i className='bx bx-check-double bx-sm align-middle'></i> My Orders</span></Link>
                 }
             </div>
+            <Toaster/>
         </div>
     )
 }

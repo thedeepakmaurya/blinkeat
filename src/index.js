@@ -10,6 +10,7 @@ import SignUp from './components/SignUp';
 import RestaurantRegistration from './components/RestaurantRegistration';
 import RestaurantInfo from './components/RestaurantInfo';
 import Home from './components/Home';
+import Orders from './components/Orders';
 
 
 const appRouter = createBrowserRouter(
@@ -42,6 +43,10 @@ const appRouter = createBrowserRouter(
                 {
                     path: 'restaurant-info',
                     element: <RestaurantInfo/>,
+                },
+                {
+                    path: 'orders',
+                    element: <Orders/>,
                 }
             ],
         },
