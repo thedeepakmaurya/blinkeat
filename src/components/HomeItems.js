@@ -8,6 +8,7 @@ const HomeItems = ({ item }) => {
     const [img, setImg] = useState(null);
     const [qty, setQty] = useState(1);
     const [restaurants, setRestaurants] = useState([]);
+    
 
 
     useEffect(() => {

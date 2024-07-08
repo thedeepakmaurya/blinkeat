@@ -26,7 +26,7 @@ const Navbar = () => {
                 }
 
                 {
-                    firebase.role === 'restaurant' ? <Link to='/orders'><span className='text-xl'><i className='bx bxs-cart-alt bxs-notepad align-middle'></i> Orders</span></Link> : <Link to='/cart'><span className='text-xl'><i className='bx bx-check-double bx-sm align-middle'></i> My Orders</span></Link>
+                  firebase.user && (firebase.role === 'restaurant' ? <Link to='/orders'><span className='text-xl'><i className='bx bxs-cart-alt bxs-notepad align-middle'></i> Orders</span></Link> : <Link to='/orders'><span className='text-xl'><i className='bx bx-check-double bx-sm align-middle'></i> My Orders</span></Link>)
                 }
             </div>
             <Toaster/>

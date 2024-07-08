@@ -136,8 +136,9 @@ export const FirebaseProvider = ({ children }) => {
     }
 
     const placeOrder = async (itemId, qty) => {
-        const collectionRef = collection(firestore, 'items', itemId, 'orders');
+        const collectionRef = collection(firestore, 'orders');
         const result = await addDoc(collectionRef, {
+            itemId,
             userId: user.uid,
             userEmail: user.email,
             qty,
@@ -145,8 +146,16 @@ export const FirebaseProvider = ({ children }) => {
         return result;
     }
 
+
+    const getUserOrders = async () => {
+        const collectionRef = collection(firestore, 'orders');
+        const q = query(collectionRef, where('userId', '==', user.uid))
+        const result = await getDocs(q)
+        return result
+    }
+
     return (
-        <FirebaseContext.Provider value={{ userSignUp, signIn, signOut, addRestaurant, addFoodItems, getImageUrl, listItems, restaurantList, placeOrder, firestore, user, role }}>
+        <FirebaseContext.Provider value={{ userSignUp, signIn, signOut, addRestaurant, addFoodItems, getImageUrl, listItems, getUserOrders, restaurantList, placeOrder, firestore, user, role }}>
             {children}
         </FirebaseContext.Provider>
     )
