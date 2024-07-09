@@ -14,7 +14,7 @@ const Navbar = () => {
             <img className='h-14' alt='logo' src={logo} />
             <div className='flex gap-5'>
                 {
-                    firebase.role === 'user' && <Link to='/'><span className='text-xl'><i className='bx bxs-home-smile bx-sm align-middle'></i> Home</span></Link>
+                    !firebase.role === 'restaurant' && <Link to='/'><span className='text-xl'><i className='bx bxs-home-smile bx-sm align-middle'></i> Home</span></Link>
 
                 }
                 {
